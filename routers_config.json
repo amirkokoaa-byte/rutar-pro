@@ -1,0 +1,75 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "description": "Router configuration mapping for Ai Lam3y Architecture. Centralizes endpoints, authentication types, and locators to allow scaling to 100+ routers without code changes.",
+    "supported_auth_types": ["Basic", "POST_MD5", "POST_SHA256", "Playwright_Required", "Token_URL"]
+  },
+  "routers": {
+    "Huawei_DG8045": {
+      "manufacturer": "Huawei",
+      "model_family": "DG8045 / HG630 V2",
+      "description": "Common VDSL router (WE/Vodafone). Uses token-based authentication with SHA256 hashed passwords in the request payload.",
+      "login": {
+        "login_url": "/api/system/user_login",
+        "auth_type": "POST_SHA256",
+        "token_endpoint": "/api/system/token",
+        "headers": {
+          "__RequestVerificationToken": "{token}"
+        }
+      },
+      "endpoints": {
+        "wlan_endpoint": "/api/ntwk/wlan",
+        "qos_endpoint": "/api/ntwk/qos_class",
+        "mac_filter_endpoint": "/api/security/mac_filter",
+        "dhcp_clients_endpoint": "/api/system/HostInfo"
+      },
+      "playwright_fallback_selectors": {
+        "username_input": "#txt_Username",
+        "password_input": "#txt_Password",
+        "login_button": "#button_login"
+      }
+    },
+    "ZTE_ZXHN_H168N": {
+      "manufacturer": "ZTE",
+      "model_family": "ZXHN H168N / H188A",
+      "description": "Widely used VDSL router. Heavily relies on complex client-side JS encryption (SHA256/MD5) and hidden form submission tokens.",
+      "login": {
+        "login_url": "/",
+        "auth_type": "Playwright_Required",
+        "session_cookie_name": "_TESTCOOKIESUPPORT"
+      },
+      "endpoints": {
+        "wlan_endpoint": "/html/network/wlan/wlan_basic.htm",
+        "qos_endpoint": "/html/network/qos/qos_classification.htm",
+        "mac_filter_endpoint": "/html/network/wlan/mac_filter.htm",
+        "dhcp_clients_endpoint": "/html/network/lan/dhcp_client.htm"
+      },
+      "playwright_fallback_selectors": {
+        "username_input": "input#Frm_Username",
+        "password_input": "input#Frm_Password",
+        "login_button": "input#LoginId",
+        "error_message": "span#LoginErrInfo"
+      }
+    },
+    "TPLink_Archer_VR600": {
+      "manufacturer": "TP-Link",
+      "model_family": "Archer VR600 (v2/v3)",
+      "description": "Popular aftermarket VDSL router. Uses MD5 hashed passwords and appends a session token (;stok=) to every subsequent request URL.",
+      "login": {
+        "login_url": "/cgi-bin/luci/;stok=/login",
+        "auth_type": "POST_MD5"
+      },
+      "endpoints": {
+        "wlan_endpoint": "/cgi-bin/luci/;stok={token}/admin/network/wireless",
+        "qos_endpoint": "/cgi-bin/luci/;stok={token}/admin/network/qos",
+        "mac_filter_endpoint": "/cgi-bin/luci/;stok={token}/admin/network/macfilter",
+        "dhcp_clients_endpoint": "/cgi-bin/luci/;stok={token}/admin/network/host_manage"
+      },
+      "playwright_fallback_selectors": {
+        "password_input": "input#pc-login-password",
+        "login_button": "button#pc-login-btn",
+        "username_input": null 
+      }
+    }
+  }
+}

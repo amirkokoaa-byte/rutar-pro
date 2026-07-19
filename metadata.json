@@ -1,0 +1,6 @@
+{
+  "name": "Router Manager Prototype",
+  "description": "A UI prototype for a local router management desktop app",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
