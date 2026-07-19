@@ -2,7 +2,8 @@ playwright
 pytest-playwright
 beautifulsoup4
 requests
-PyQt6
+fastapi
+uvicorn
 scapy
 psutil
 cryptography
